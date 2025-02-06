@@ -98,21 +98,37 @@ export function InteractiveNematode() {
     duration = duration * (100 / concentration)
     amplitude = amplitude * (concentration / 100)
 
-    return {
+    const pathVariants = {
       animate: {
         d: [
           `M 10 100 Q 90 ${100 - amplitude} 200 100 Q 310 ${100 + amplitude} 390 100`,
           `M 10 100 Q 90 ${100 + amplitude} 200 100 Q 310 ${100 - amplitude} 390 100`,
         ],
-      },
-      transition: {
-        duration: duration,
-        ease: "easeInOut",
-        repeat: Number.POSITIVE_INFINITY,
-        repeatType: "reverse",
+        transition: {
+          duration,
+          ease: "easeInOut",
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "reverse" as const,
+        },
       },
     }
+
+    const circleVariants = {
+      animate: {
+        cy: [100 - amplitude, 100 + amplitude],
+        transition: {
+          duration,
+          ease: "easeInOut",
+          repeat: Number.POSITIVE_INFINITY,
+          repeatType: "reverse" as const,
+        },
+      },
+    }
+
+    return { pathVariants, circleVariants }
   }
+
+  const { pathVariants, circleVariants } = getAnimationProps()
 
   return (
     <section className="py-20 bg-gray-100">
@@ -128,14 +144,22 @@ export function InteractiveNematode() {
               <div className="bg-white p-4 rounded-lg shadow-inner">
                 <svg width="400" height="200" viewBox="0 0 400 200">
                   <motion.path
-                    d="M 10 100 Q 90 70 200 100 Q 310 130 390 100"
+                    initial="initial"
+                    animate="animate"
+                    variants={pathVariants}
                     fill="transparent"
                     stroke="#1d4ed8"
                     strokeWidth="8"
                     strokeLinecap="round"
-                    {...getAnimationProps()}
                   />
-                  <motion.circle cx="10" cy="100" r="5" fill="#1d4ed8" {...getAnimationProps()} />
+                  <motion.circle
+                    initial="initial"
+                    animate="animate"
+                    variants={circleVariants}
+                    cx="10"
+                    r="5"
+                    fill="#1d4ed8"
+                  />
                 </svg>
               </div>
             </CardContent>
