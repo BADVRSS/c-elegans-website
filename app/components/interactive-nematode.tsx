@@ -70,7 +70,6 @@ export function InteractiveNematode() {
   const getAnimationProps = () => {
     let duration = 2
     let amplitude = 30
-    let frequency = 1
 
     switch (selectedSubstance) {
       case "Etanol":
@@ -80,7 +79,6 @@ export function InteractiveNematode() {
       case "Cafeína":
         duration = 1
         amplitude = 40
-        frequency = 2
         break
       case "Serotonina":
         duration = 3
@@ -103,15 +101,13 @@ export function InteractiveNematode() {
     return {
       animate: {
         d: [
-          `M 10 100 Q 90 ${100 - amplitude * Math.sin(frequency)} 200 100 Q 310 ${100 + amplitude * Math.sin(frequency)} 390 100`,
-          `M 10 100 Q 90 ${100 + amplitude * Math.sin(frequency)} 200 100 Q 310 ${100 - amplitude * Math.sin(frequency)} 390 100`,
-          `M 10 100 Q 90 ${100 - amplitude * Math.sin(frequency)} 200 100 Q 310 ${100 + amplitude * Math.sin(frequency)} 390 100`,
+          `M 10 100 Q 90 ${100 - amplitude} 200 100 Q 310 ${100 + amplitude} 390 100`,
+          `M 10 100 Q 90 ${100 + amplitude} 200 100 Q 310 ${100 - amplitude} 390 100`,
         ],
       },
       transition: {
-        duration: duration / frequency,
+        duration: duration,
         ease: "easeInOut",
-        times: [0, 0.5, 1],
         repeat: Number.POSITIVE_INFINITY,
         repeatType: "reverse",
       },
